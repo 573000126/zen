@@ -4,7 +4,7 @@ use std::ptr::null_mut;
 use libc::c_char;
 
 use zen_engine::loader::LoaderError;
-use zen_engine::EvaluationError;
+use zen_engine::{EvaluationError, EvaluationTraceKind};
 use zen_expression::IsolateError;
 
 use crate::error::{ZenError, ZenErrorDiscriminants};
@@ -53,7 +53,11 @@ impl<T> ZenResult<T> {
 
 impl<T> From<&Box<EvaluationError>> for ZenResult<T> {
     fn from(evaluation_error: &Box<EvaluationError>) -> Self {
-        let Ok(value) = serde_json::to_value(evaluation_error) else {
+        // Use serialize_with_mode with EvaluationTraceKind::Default to include trace in error response
+        let Ok(value) = evaluation_error.serialize_with_mode(
+            serde_json::value::Serializer,
+            EvaluationTraceKind::Default,
+        ) else {
             return ZenResult::error(ZenError::JsonSerializationFailed);
         };
 
