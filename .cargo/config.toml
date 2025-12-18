@@ -1,0 +1,15 @@
+# Cargo configuration for cross-platform builds
+# See: https://doc.rust-lang.org/cargo/reference/config.html
+
+# Windows x64 target - use static CRT for better compatibility with older Windows versions
+# This eliminates the dependency on vcruntime140.dll and ucrtbase.dll
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]
+
+# Windows x86 target (if needed)
+[target.i686-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]
+
+# Windows ARM64 target (if needed)
+[target.aarch64-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]
