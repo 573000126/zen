@@ -124,21 +124,6 @@ struct ZenResult_c_int zen_evaluate_unary_expression(const char *expression, con
 struct ZenResult_c_char zen_evaluate_template(const char *template_, const char *context);
 
 /**
- * Frees a string that was allocated by the Rust library.
- * This should be used to free strings returned by zen functions.
- * # Safety
- * The pointer must have been allocated by CString::into_raw() from this library.
- */
-void zen_free_string(char *ptr);
-
-/**
- * Frees a byte buffer that was allocated by the Rust library.
- * # Safety
- * The pointer must have been allocated by Box::into_raw() from this library.
- */
-void zen_free_bytes(uint8_t *ptr);
-
-/**
  * Creates a new ZenEngine instance with loader, caller is responsible for freeing the returned reference
  * by calling zen_engine_free.
  */
